@@ -9,7 +9,7 @@ const db = mysql.createPool({
 	host: 'localhost',
 	user: 'root',
 	password: 'darkknight2323',
-	database: 'elearn',
+	database: 'elrn',
 });
 
 //storing profile pics configurations
@@ -37,6 +37,7 @@ app.get('/api/select',(req,res)=>{
 });
 
 app.post('/api/insert',(req,res)=>{
+    const regNo = req.body.registrationNo;
     const firstname=req.body.firstname;
     const lastname=req.body.lastname;
     const email=req.body.email;
@@ -44,9 +45,9 @@ app.post('/api/insert',(req,res)=>{
     const profilepic = req.body.profilepic;
     console.log(profilepic);
 
-    const sqlqi = "INSERT INTO candidates (firstname,lastname,email,industry,profilepic) VALUES (?,?,?,?,?)";
+    const sqlqi = "insert into candidates (registration_no,firstname,lastname,email,industry,profilepic) values (?,?,?,?,?,?);";
 
-    db.query(sqlqi,[firstname,lastname,email,industry,profilepic],(err,rslt)=>{
+    db.query(sqlqi,[regNo,firstname,lastname,email,industry,profilepic],(err,rslt)=>{
         if (err) return console.log(err);
         console.log(rslt);
     })
@@ -86,7 +87,7 @@ app.get('/api/search/result/:name',(req,res)=>{
     })
 });
 app.get('/api/results',(req,res)=>{
-    let sqlqr = "select firstname,lastname,knowledge_area,level,score,assessor,overall,completed from result r inner join candidates c on c.id = r.candidate_id;";
+    let sqlqr = "select firstname,lastname,knowledge_area,level,score,assessor,overall,completed from results r inner join candidates c on c.registration_no = r.cand_reg_no;";
     db.query(sqlqr,(err,rslt)=>{
         if(err) return res.send(err);
         console.log(rslt);
@@ -123,7 +124,7 @@ app.post('/api/addresult',(req,res)=>{
 });
 app.delete('/api/userDelete',(req,res)=>{
     let userId = req.query.id;
-    sqlqd = "DELETE FROM candidates WHERE id=?";
+    sqlqd = "DELETE FROM candidates WHERE registration_no=?";
     db.query(sqlqd,[userId],(err,rslt)=>{
         if(err) return console.log(err);
         console.log(rslt)
