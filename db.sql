@@ -39,7 +39,7 @@ CREATE TABLE `candidates` (
 
 LOCK TABLES `candidates` WRITE;
 /*!40000 ALTER TABLE `candidates` DISABLE KEYS */;
-INSERT INTO `candidates` VALUES (222,'sajid','ameen','sajidameen063@gmail.com','kaka','dsds'),(223,'sajid','ameen','sajidameen063@gmail.com','kaka','dsds'),(224,'sajid','ameen','sajidameen063@gmail.com','kaka','dsds');
+INSERT INTO `candidates` VALUES (11,'lionel','azeez','yusriareef383@gmail.com','Network','nature_0040.jpg'),(222,'sajid','ameen','sajidameen063@gmail.com','kaka','dsds'),(223,'sajid','ameen','sajidameen063@gmail.com','kaka','dsds'),(224,'sajid','ameen','sajidameen063@gmail.com','kaka','dsds'),(226,'sajid','ameen','sajidameen063@gmail.com','kaka','dsds'),(345,'dfg','sdg','azharazeez78@gmail.com','fdsf','450ffae8b413836e68fa5c4de8293e3f.jpg'),(435,'qwerqwe','rqwe','yusriareef383@gmail.com','kaathu','4dfn97jf4jh51.jpg'),(3432,'weqrqwe','sdfas','azharazeez78@gmail.com','fdsf','1f01fb4d69b285a22376029ce7194d3e.jpg'),(3451,'lionel','azeez','azharazeez78@gmail.com','Engineering','16830779_180803025741406_6941898584453670641_n.jpg'),(13242,'lionel','azeez','umai.hussain276@gmail.com','Network','17155827_187724398382602_2996023664042851825_n.jpg'),(357523,'reagrae','cadhar','rockzyruzaik753@gmail.com','fdsf','batsy.jpg');
 /*!40000 ALTER TABLE `candidates` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -58,7 +58,7 @@ CREATE TABLE `results` (
   `assessor` varchar(50) NOT NULL,
   `overall` enum('pass','fail') NOT NULL,
   `completed` date NOT NULL,
-  UNIQUE KEY `cand_reg_no` (`cand_reg_no`),
+  KEY `cand_reg_no` (`cand_reg_no`),
   CONSTRAINT `results_ibfk_1` FOREIGN KEY (`cand_reg_no`) REFERENCES `candidates` (`registration_no`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -69,7 +69,7 @@ CREATE TABLE `results` (
 
 LOCK TABLES `results` WRITE;
 /*!40000 ALTER TABLE `results` DISABLE KEYS */;
-INSERT INTO `results` VALUES (222,'lala','2',34,'sad','pass','2020-03-29'),(224,'lala','2',34,'sad','pass','2020-03-29');
+INSERT INTO `results` VALUES (224,'lala','2',34,'sad','pass','2020-03-29'),(224,'lala','2',34,'sad','pass','2020-03-29');
 /*!40000 ALTER TABLE `results` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -82,4 +82,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-04-01 14:42:17
+-- Dump completed on 2021-04-01 19:00:42

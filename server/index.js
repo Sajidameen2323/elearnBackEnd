@@ -15,10 +15,10 @@ const db = mysql.createPool({
 //storing profile pics configurations
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
-    cb(null, '../my-app/public/profilepics')
+    cb(null, '../../elearnFrontEnd/my-app/public/profilepics')
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname )
+    cb(null, Date.now().toString().slice(0,9)+'-'+file.originalname )
   }
 });
 var upload = multer({ storage: storage }).single('file');
@@ -66,6 +66,13 @@ app.post('/api/upload',function(req, res) {
     })
 
 });
+app.get('/api/regNo',(req,res)=>{
+    let qry = " select registration_no as regNo from candidates order by regNo;";
+    db.query(qry,(err,rslt)=>{
+        if (err) return console.log(err);
+        res.send(rslt);
+    })
+})
 
 app.get('/api/search/candidate/:name',(req,res)=>{
     let term = req.params.name;
