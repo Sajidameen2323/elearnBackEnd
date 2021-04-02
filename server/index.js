@@ -10,6 +10,7 @@ const db = mysql.createPool({
 	user: 'root',
 	password: 'darkknight2323',
 	database: 'elrn',
+    timezone:'SYSTEM'
 });
 
 //storing profile pics configurations
@@ -76,7 +77,7 @@ app.get('/api/regNo',(req,res)=>{
 
 app.get('/api/search/candidate/:name',(req,res)=>{
     let term = req.params.name;
-    sqlqsc = "select * from candidates where firstname like ? or lastname like ? or id=?";
+    sqlqsc = "select * from candidates where firstname like ? or lastname like ? or registration_no=?";
 
     db.query(sqlqsc,['%'+term+'%','%'+term+'%',term],(err,rslt)=>{
         if(err) return console.log(err);
@@ -86,7 +87,7 @@ app.get('/api/search/candidate/:name',(req,res)=>{
 });
 app.get('/api/search/result/:name',(req,res)=>{
     let term = req.params.name;
-    sqlqsr = "select firstname,lastname,knowledge_area,level,score,assessor,overall,completed from result r inner join candidates c on c.id = r.candidate_id where firstname like ? or lastname like ? or id=?;";
+    sqlqsr = "select cand_reg_no,firstname,lastname,knowledge_area,level,score,assessor,overall,completed from results r inner join candidates c on c.registration_no = r.cand_reg_no where firstname like ? or lastname like ? or registration_no=?;";
     db.query(sqlqsr,['%'+term+'%','%'+term+'%',term],(err,rslt)=>{
         if(err)return console.log(err);
         console.log(rslt);
@@ -94,7 +95,7 @@ app.get('/api/search/result/:name',(req,res)=>{
     })
 });
 app.get('/api/results',(req,res)=>{
-    let sqlqr = "select firstname,lastname,knowledge_area,level,score,assessor,overall,completed from results r inner join candidates c on c.registration_no = r.cand_reg_no;";
+    let sqlqr = "select cand_reg_no,firstname,lastname,knowledge_area,level,score,assessor,overall,completed from results r inner join candidates c on c.registration_no = r.cand_reg_no;";
     db.query(sqlqr,(err,rslt)=>{
         if(err) return res.send(err);
         console.log(rslt);
@@ -103,7 +104,8 @@ app.get('/api/results',(req,res)=>{
 });
 app.post('/api/results/filter',(req,res)=>{
     let term = req.body.date;
-    let sqlqrf = `SELECT firstname,lastname,knowledge_area,level,score,assessor,overall,completed FROM result r JOIN candidates c ON c.id = r.candidate_id WHERE completed=?`;
+    console.log(term);
+    let sqlqrf = `select cand_reg_no,firstname,lastname,knowledge_area,level,score,assessor,overall,completed from results r inner join candidates c on c.registration_no = r.cand_reg_no WHERE completed=?`;
 
     db.query(sqlqrf,[term],(err,rslt)=>{
         if(err) return console.log(err);
@@ -114,7 +116,7 @@ app.post('/api/results/filter',(req,res)=>{
 })
 
 app.post('/api/addresult',(req,res)=>{
-    let candidateId = req.body.candidateId;
+    let cand_reg_no = req.body.cand_reg_no;
     let knowledgeArea = req.body.knowledgeArea;
     let level = req.body.level;
     let score = req.body.score;
@@ -122,8 +124,8 @@ app.post('/api/addresult',(req,res)=>{
     let overall = req.body.overall;
     let completed = req.body.completed;
     console.log(completed);
-    let sqlqar = "INSERT INTO result (candidate_id,knowledge_area,level,score,assessor,overall,completed) VALUES (?,?,?,?,?,?,?)";
-    db.query(sqlqar,[candidateId,knowledgeArea,level,score,assessor,overall,completed],(err,rslt)=>{
+    let sqlqar = "INSERT INTO results (cand_reg_no,knowledge_area,level,score,assessor,overall,completed) VALUES (?,?,?,?,?,?,?)";
+    db.query(sqlqar,[cand_reg_no,knowledgeArea,level,score,assessor,overall,completed],(err,rslt)=>{
         if(err) return res.send(err);
         res.send('success');
         console.log(rslt);

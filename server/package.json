@@ -1,6 +1,6 @@
 {
   "name": "server",
-	"homepage": "http://lucifer2323.github.io/elearn",
+  "homepage": "http://lucifer2323.github.io/elearn",
   "version": "1.0.0",
   "description": "server for elms",
   "main": "index.js",
@@ -8,8 +8,8 @@
     "start": "node index.js",
     "devStart": "nodemon index.js",
     "test": "node index.js",
-"predeploy": "npm run build",
-  "deploy": "gh-pages -d build"
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "author": "sajid ameen",
   "license": "ISC",
