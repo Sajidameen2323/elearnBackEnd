@@ -150,6 +150,21 @@ app.get('/api/editCandidate/:regNo',(req,res)=>{
         res.send(rslt);
     })
 });
+app.post('/api/updateCandidate',(req,res)=>{
+    const regNo = req.body.registrationNo;
+    console.log(regNo);
+    const firstname=req.body.firstname;
+    const lastname=req.body.lastname;
+    const email=req.body.email;
+    const industry=req.body.industry;
+    const profilepic = req.body.profilepic;
+
+    let sql = "update candidates set firstname=?,lastname=?,email=?,industry=?,profilepic=? where registration_no = ?;";
+    db.query(sql,[firstname,lastname,email,industry,profilepic,regNo],(err,rslt)=>{
+        if(err)return console.log(err);
+        console.log(rslt);
+    })
+})
 
 app.listen(3001,()=>{
 	console.log('running on port 3001');
