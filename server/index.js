@@ -95,7 +95,7 @@ app.get('/api/search/result/:name',(req,res)=>{
     })
 });
 app.get('/api/results',(req,res)=>{
-    let sqlqr = "select cand_reg_no,firstname,lastname,knowledge_area,level,score,assessor,overall,completed from results r inner join candidates c on c.registration_no = r.cand_reg_no order by cand_reg_no;";
+    let sqlqr = "select result_id,cand_reg_no,firstname,lastname,knowledge_area,level,score,assessor,overall,completed from results r inner join candidates c on c.registration_no = r.cand_reg_no order by cand_reg_no;";
     db.query(sqlqr,(err,rslt)=>{
         if(err) return res.send(err);
         console.log(rslt);
@@ -105,7 +105,7 @@ app.get('/api/results',(req,res)=>{
 app.post('/api/results/filter',(req,res)=>{
     let term = req.body.date;
     console.log(term);
-    let sqlqrf = `select cand_reg_no,firstname,lastname,knowledge_area,level,score,assessor,overall,completed from results r inner join candidates c on c.registration_no = r.cand_reg_no WHERE completed=?`;
+    let sqlqrf = `select result_id,cand_reg_no,firstname,lastname,knowledge_area,level,score,assessor,overall,completed from results r inner join candidates c on c.registration_no = r.cand_reg_no WHERE completed=?`;
 
     db.query(sqlqrf,[term],(err,rslt)=>{
         if(err) return console.log(err);
@@ -164,7 +164,15 @@ app.post('/api/updateCandidate',(req,res)=>{
         if(err)return console.log(err);
         console.log(rslt);
     })
-})
+});
+app.delete('/api/resultDelete',(req,res)=>{
+    let resultId = req.query.id;
+    sqlqd = " delete from results where result_id = ?";
+    db.query(sqlqd,[resultId],(err,rslt)=>{
+        if(err) return console.log(err);
+        console.log(rslt)
+    })
+});
 
 app.listen(3001,()=>{
 	console.log('running on port 3001');
